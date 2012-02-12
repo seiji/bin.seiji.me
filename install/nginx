@@ -17,7 +17,7 @@ mkdir -p /var/tmp/nginx/{proxy,client,fcgi}
 cd $SOURCE_DIR
 [ -e "$SOURCE_DIR/nginx-1.0.12/Makefile" ] && make clean
 ./configure \
-  --conf-path=/etc/nginx/nginx.conf \
+  --conf-path=/usr/local/nginx/conf/nginx.conf \
   --error-log-path=/var/log/nginx/error.log \
   --pid-path=/var/run/nginx/nginx.pid  \
   --lock-path=/var/lock/nginx.lock \
@@ -32,9 +32,6 @@ cd $SOURCE_DIR
   --http-proxy-temp-path=/var/tmp/nginx/proxy/ \
   --http-fastcgi-temp-path=/var/tmp/nginx/fcgi/ \
 && make && make install
-
-# conf files
-cp -Ri $SOURCE_DIR/nginx-1.0.12/conf /usr/local/nginx/
 
 # init script
 #  from "http://wiki.nginx.org/index.php?title=RedHatNginxInitScript&action=raw&anchor=nginx" 
@@ -71,7 +68,7 @@ lockfile=/var/lock/nginx.lock
 
 make_dirs() {
    # make required directories
-   user=`$nginx -V 2>&1 | grep "configure arguments:" | sed 's/[^*]*--user=¥([^ ]*¥).*/¥1/g' -`
+   user=`$nginx -V 2>&1 | grep "configure arguments:" | sed 's/[^*]*--user=\([^ ]*\).*/\1/g' -`
    if [ -z "`grep $user /etc/passwd`" ]; then
        useradd -M -s /bin/nologin $user
    fi
@@ -175,3 +172,21 @@ chmod 755 /etc/init.d/nginx
 chkconfig --add nginx
 chkconfig nginx on
 
+echo "# service nginx start"
+# logrotate
+
+cat <<'EOF' >/etc/logrotate.d/nginx
+
+/var/log/nginx/*log {
+    daily
+    dateext
+    missingok
+    rotate 365
+    compress
+    notifempty
+    sharedscripts
+    postrotate
+        test ! -f /var/run/nginx/nginx.pid || kill -USR1 `cat /var/run/nginx/nginx.pid`
+    endscript
+}
+EOF
