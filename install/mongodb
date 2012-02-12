@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+USER=mongodb
+
+cd /usr/local/src/
+wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.0.2.tgz
+tar -zxf mongodb-linux-x86_64-2.0.2.tgz
+mv mongodb-linux-x86_64-2.0.2.tgz /usr/local/mongodb
+
+groupadd $USER
+id $USER || useradd -s /sbin/nologin -d /usr/local/mongodb -G $USER -M $USER
+
+
+
