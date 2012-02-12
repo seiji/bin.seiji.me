@@ -1,4 +1,30 @@
+#!/usr/bin/env bash
+
+SERVICE=fluent
+
 gem install fluentd
 # setup
 fluentd --setup /etc/fluent
+chown $USER. /etc/fluent
+
+groupadd $SERVICE
+id $SERVICE || useradd -s /sbin/nologin -d /dev/null -g $SERVICE -M $SERVICE
+
+# requires djb daemontools
+/command/add_service $SERVICE
+
+cat <<EOF >/command/.$SERVICE/run
+#!/bin/sh
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin
+export PATH
+
+exec 2>&1
+exec setuidgid fluent fluentd
+
+EOF
+
+#
+echo "to run this service use below command"
+echo "# mv -i /service/.$USER /service/$USER"
 
