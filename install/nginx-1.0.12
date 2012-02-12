@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 
-SOURCE_DIR=/usr/local/src/nginx1.0.9
+SOURCE_DIR=/usr/local/src
 USER=nginx
+
+cd $SOURCE_DIR
+wget http://nginx.org/download/nginx-1.0.12.tar.gz
+tar -zxf nginx-1.0.12.tar.gz
+cd nginx-1.0.12
+
 id $USER || useradd -s /sbin/nologin -d /usr/local/nginx -M $USER
 mkdir -p /var/tmp/nginx/{proxy,client,fcgi}
 
@@ -22,4 +28,5 @@ cd $SOURCE_DIR
   --http-client-body-temp-path=/var/tmp/nginx/client/ \
   --http-proxy-temp-path=/var/tmp/nginx/proxy/ \
   --http-fastcgi-temp-path=/var/tmp/nginx/fcgi/ \
-&& make
+&& make && make test && make install
+

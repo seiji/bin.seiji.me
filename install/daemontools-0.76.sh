@@ -1,8 +1,17 @@
 #!/usr/bin/env bash
 
+# this script requires gcc, make, patch 
+# yum -y install gcc
+# yum -y install make
+# yum -y install patch
 SOURCE_DIR=/usr/local/src
-USER=nginx
+USER-logadmin
 
+# user for daemontools
+groupadd $USER
+id $USER || useradd -s /sbin/nologin -d /dev/null -g $USER -M $USER
+
+#
 cd $SOURCE_DIR
 wget http://cr.yp.to/daemontools/daemontools-0.76.tar.gz
 tar -zxf daemontools-0.76.tar.gz
@@ -15,8 +24,8 @@ patch -s -p1 <./daemontools-0.76.errno.patch
 
 # for centos6
 SVSCAN_CONF=/etc/init/svscan.conf 
-if [! -f $SVSCAN_CONF ]; then
-cat <<EOF > $SVSCAN_CONF
+if [ ! -s $SVSCAN_CONF ]; then
+    cat <<EOF > $SVSCAN_CONF
 
 start on runlevel [12345]
 respawn
@@ -29,7 +38,7 @@ initctl start svscan
 fi
 
 # add service command
-cat <<EOF >/command/add_service
+cat <<'EOF' >/command/add_service
 #!/bin/sh
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 export PATH
