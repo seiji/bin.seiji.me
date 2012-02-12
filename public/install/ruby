@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# this script requires git.x86_64
+# yum -y install git.x86_64
+
+
+bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+source /etc/profile.d/rvm.sh
+
+rvm install 1.9.3
+rvm use 1.9.3 --default
