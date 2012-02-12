@@ -1,4 +1,4 @@
 cd /home/seiji/www/bin.seiji.me/
-git pull origin master
+sudo -u seiji -H git pull origin master
 
 
