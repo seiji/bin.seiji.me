@@ -1,7 +1,7 @@
 cd /usr/local/src
-git clone http://github.com/fluent/fluent.git
-
+git clone https://github.com/fluent/fluentd.git
 ./autogen.sh
 ./configure && make && make install
 # setup
 fluentd --setup /etc/fluent
+
