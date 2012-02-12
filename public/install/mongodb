@@ -36,7 +36,7 @@ chown $USER. /usr/local/var/$USER
 # requires djb daemontools
 /command/add_service $USER
 
-cat <<EOF >/command/.$USER/run
+cat <<EOF >/service/.$USER/run
 #!/bin/sh
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin

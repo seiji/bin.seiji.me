@@ -12,14 +12,15 @@ id $SERVICE || useradd -s /sbin/nologin -d /dev/null -g $SERVICE -M $SERVICE
 
 # requires djb daemontools
 /command/add_service $SERVICE
-
-cat <<EOF >/command/.$SERVICE/run
+                     
+cat <<EOF >/service/.$SERVICE/run
 #!/bin/sh
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin
 export PATH
 
 exec 2>&1
+source /etc/profile.d/rvm.sh
 exec setuidgid fluent fluentd
 
 EOF
@@ -27,4 +28,9 @@ EOF
 #
 echo "to run this service use below command"
 echo "# mv -i /service/.$USER /service/$USER"
+
+
+# plugin
+echo "Install fluent-plugin-mongo"
+fluent-gem install fluent-plugin-mongo
 
