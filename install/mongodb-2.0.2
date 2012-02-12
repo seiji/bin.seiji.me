@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+USER=mongodb
+
+cd /usr/local/src/
+wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.0.2.tgz
+tar -zxf mongodb-linux-x86_64-2.0.2.tgz
+ln -s /usr/local/src/mongodb-linux-x86_64-2.0.2 /usr/local/mongodb
+
+groupadd $USER
+id $USER || useradd -s /sbin/nologin -d /usr/local/mongodb -g $USER -M $USER
+
+# /usr/local/mongodb/mongod.conf
+cat <<EOF > /usr/local/mongodb/mongod.conf
+dbpath=/usr/local/var/mongodb
+
+#logpath=/usr/local/var/log/mongod.log
+#logappend=true
+
+# fork and run in background
+fork = true
+
+# only accept local connections
+bind_ip = 127.0.0.1
+
+# Enable write ahead logging
+journal = true
+
+EOF
+
+# requires djb daemontools
+
+
