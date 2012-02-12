@@ -13,7 +13,7 @@ require: []
 wait: 30
 daemonize: true
 
-socket: tmp/pids/sinatra.sock
+socket: /tmp/sinatra.sock
 servers: 2
 
 
