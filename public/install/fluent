@@ -3,6 +3,8 @@
 SERVICE=fluent
 
 gem install fluentd
+gem install bson_ext
+
 # setup
 fluentd --setup /etc/fluent
 chown $USER. /etc/fluent
