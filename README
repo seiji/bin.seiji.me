@@ -1,3 +1,5 @@
 bash < <(curl http://bin.seiji.me/install/xxx)
 
 test
+
+gone
