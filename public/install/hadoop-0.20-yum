@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# set yum repo
+wget http://archive.cloudera.com/redhat/cdh/cloudera-cdh3.repo -O /etc/yum.repos.d/cloudera-cdh3.repo
+yum update yum
+
+yum install -y hadoop-0.20
+yum install -y hadoop-0.20-conf-pseudo
+yum install -y hadoop-hive
+yum install -y hadoop-pig
+yum install -y hadoop-hbase
+
+# start
+# /etc/init.d/hadoop-0.20-datanode start
+# /etc/init.d/hadoop-0.20-namenode start
+# /etc/init.d/hadoop-0.20-tasktracker start
+# /etc/init.d/hadoop-0.20-jobtracker start
+# /etc/init.d/hadoop-0.20-secondarynamenode start
+ 
