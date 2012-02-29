@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 cd /usr/local/src/
-wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.0.2.tgz
-tar -zxf mongodb-linux-x86_64-2.0.2.tgz
+wget http://nodejs.org/dist/v0.6.11/node-v0.6.11.tar.gz
+tar -zxf node-v0.6.11.tar.gz 
 cd node-v0.6.11
 ./configure && make && make install
 

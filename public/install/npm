@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
 
+cat >>~/.npmrc <<EOF
+root = ~/.npm/libraries
+binroot = ~/.npm/bin
+manroot = ~/.npm/man
+EOF
+
+echo 'export NODE_PATH=~/.npm/libraries:$NODE_PATH' >> ~/.bash_profile
+echo 'export PATH=~/.npm/libraries:$NODE_PATH' >> ~/.bash_profile
+echo 'export MANPATH=~/.npm/man:$MANPATH' >> ~/.bash_profile
+source ~/.bash_profile
+
 curl http://npmjs.org/install.sh | sh
 
-
+npm -v
