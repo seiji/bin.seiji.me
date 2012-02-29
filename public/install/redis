@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+USER=redis
+
+cd /usr/local/src/
+wget http://redis.googlecode.com/files/redis-2.4.8.tar.gz
+tar -zxf redis-2.4.8.tar.gz
+
+cd redis-2.4.8
+make && make install
+
+# requires djb daemontools
+/command/add_service $USER
+
+cat <<EOF >/service/.$USER/run
+#!/bin/sh
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin
+export PATH
+
+exec /usr/local/bin/redis-server /etc/redis.conf
+sleep 3
+
+EOF
+
+#
+echo "to run this service use below command"
+echo "# mv -i /service/.$USER /service/$USER"
+
+
