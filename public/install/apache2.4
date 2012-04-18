@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+SOURCE_DIR=/usr/local/src
+
+### apr 1.4
+cd $SOURCE_DIR
+wget http://www.apache.org/dist/apr/apr-1.4.6.tar.gz
+tar -zxf apr-1.4.6.tar.gz
+cd apr-1.4.6
+
+[ -e "$SOURCE_DIR/apr-1.4.6/Makefile" ] && make clean
+./configure && make && make install
+
+### APR-util
+wget http://www.apache.org/dist/apr/apr-util-1.4.1.tar.gz
+tar zxf ./apr-util-1.4.1.tar.gz
+cd apr-util-1.4.1
+./configure --with-apr=/usr/local/apr && make && make install
+
+### Apache 2.4
+cd $SOURCE_DIR
+wget http://www.apache.org/dist/httpd/httpd-2.4.2.tar.gz
+tar -zxf httpd-2.4.2.tar.gz
+cd ./httpd-2.4.2
+./configure --prefix=/usr/local/httpd-2.4.2 \
+    --enable-mods-shared=all \
+    --with-apr=/usr/local/apr \
+    --with-apr-util=/usr/local/apr
+make && make install

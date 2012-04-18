@@ -6,10 +6,12 @@ binroot = ~/.npm/bin
 manroot = ~/.npm/man
 EOF
 
-echo 'export NODE_PATH=~/.npm/libraries:$NODE_PATH' >> ~/.bash_profile
-echo 'export PATH=~/.npm/libraries:$NODE_PATH' >> ~/.bash_profile
-echo 'export MANPATH=~/.npm/man:$MANPATH' >> ~/.bash_profile
-source ~/.bash_profile
+cat >>/etc/profile <<EOF
+export NODE_PATH="/usr/local/lib/node"
+export PATH=~/.npm/bin:$PATH
+export MANPATH=~/.npm/man:$MANPATH
+EOF
+source bash_profile
 
 curl http://npmjs.org/install.sh | sh
 
