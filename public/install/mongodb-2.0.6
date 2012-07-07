@@ -6,7 +6,7 @@ cd /usr/local/src/
 wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.0.6.tgz
 tar -zxf mongodb-linux-x86_64-2.0.6.tgz
 mv -i mongodb-linux-x86_64-2.0.6 /usr/local/mongodb-linux-x86_64-2.0.6
-ln -s /usr/local/mongodb-linux-x86_64-2.0.2 /usr/local/mongodb
+ln -s /usr/local/mongodb-linux-x86_64-2.0.6 /usr/local/mongodb
 
 groupadd $USER
 id $USER || useradd -s /sbin/nologin -d /usr/local/mongodb -g $USER -M $USER
