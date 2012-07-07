@@ -14,12 +14,11 @@ cd nginx-1.2.2
 id $USER || useradd -s /sbin/nologin -d /usr/local/nginx -M $USER
 mkdir -p /var/tmp/nginx/{proxy,client,fcgi}
 
-cd $SOURCE_DIR
 [ -e "$SOURCE_DIR/nginx-1.2.2/Makefile" ] && make clean
 ./configure \
   --conf-path=/usr/local/nginx/conf/nginx.conf \
   --error-log-path=/var/log/nginx/error.log \
-  --pid-path=/var/run/nginx/nginx.pid  \
+  --pid-path=/var/run/nginx/nginx.pid \
   --lock-path=/var/lock/nginx.lock \
   --user=nginx \
   --group=nginx \
