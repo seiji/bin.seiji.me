@@ -5,7 +5,7 @@
 # yum -y install make
 # yum -y install patch
 SOURCE_DIR=/usr/local/src
-USER-logadmin
+USER=logadmin
 
 # user for daemontools
 groupadd $USER
