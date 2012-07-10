@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+SERVICE=kyototycoon
+
+# KyotoCabinet
+cd /usr/local/src/
+wget http://fallabs.com/kyotocabinet/pkg/kyotocabinet-1.2.72.tar.gz
+tar -zxf kyotocabinet-1.2.72.tar.gz
+
+cd kyotocabinet-1.2.72
+./configure
+make && make install
+
+# KyotoTycoon
+cd /usr/local/src/
+wget http://fallabs.com/kyototycoon/pkg/kyototycoon-0.9.52.tar.gz
+tar -zxf kyototycoon-0.9.52.tar.gz
+
+cd kyototycoon-0.9.52
+./configure
+make && make install
+
+# init script
+cp lab/ktservctl /usr/local/sbin/
+cp lab/ktservctl /etc/init.d/ktservctl
+
+# requires djb daemontools
+/command/add_service $SERVICE
+
+cat <<EOF >/service/.$SERVICE/run
+#!/bin/sh
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin
+export PATH
+
+exec 2>&1
+
+exec setuidgid nobody /usr/local/kyototycoon/bin/ktserver -th 1 -ls \
+-plsv /usr/local/libexec/ktplugservmemc.so \
+-plex 'port=11211#tout=30#thnum=16#opts=fq#qtout=10' \
+'/var/ktserver/casket.kct#ktopts=p'
+
+EOF
+
+#
+echo "to run this service use below command"
+echo "# mv -i /service/.$SERVICE /service/$SERVICE"
+
+
